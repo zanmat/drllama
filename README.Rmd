@@ -29,20 +29,5 @@ You can install the development version of DrLlama from [GitHub](https://github.
 pak::pak("zanmat/DrLlama")
 ```
 
-## Example
-
-This is a basic example which shows you how to solve a common problem:
-
-```{r example}
-library(DrLlama)
-
-llm_use("ollama", "llama3.2:3b", seed = 100, temperature = 0)
-
-doc_to_code("my_code.R", "light")
-
-# The function doc_to_code will read the .R file and create a copy starting with "with_code_"
-
-```
-
 DrLlama requires having [Ollama](https://ollama.com/) installed and running.
 

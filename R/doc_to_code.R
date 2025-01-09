@@ -39,7 +39,7 @@ doc_to_code <- function(file, level = "light") {
     print("Please define if light or heavy commentary.")
   }
 
-  filename <- paste0("with_code", file)
+  filename <- paste0("with_code_", file)
 
   write.table(test_doc_function, filename, sep = "", row.names = FALSE,
               col.names = FALSE, quote = FALSE)

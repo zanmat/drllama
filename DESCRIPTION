@@ -14,3 +14,5 @@ Depends:
     dplyr,
     mall
 Imports: 
+URL: https://github.com/zanmat/DrLlama
+BugReports: https://github.com/zanmat/DrLlama/issues

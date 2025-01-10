@@ -27,10 +27,41 @@ doc_to_code <- function(file, level = "light") {
   test_doc_function <- llm_custom(doc_test, code, prompt, pred_name = "Comment") |>
     mutate(Comment = if_else(code != "",
                              paste0("  # ", Comment),
-                             ""))
+                             "")) |>
+    mutate(Comment = if_else(grepl("#", code, fixed = TRUE),
+                             "",
+                             Comment)) |>
+    mutate(Comment = if_else(grepl("```", code, fixed = TRUE),
+                             "",
+                             Comment))
+
+  if (str_sub(file,-2, -1) == "md") {
+    test_doc_function <- test_doc_function |>
+      mutate(
+        Comment = ifelse(
+          row_number() >= which(code == "---")[1] &
+            row_number() <= which(code == "---")[2],
+          "",
+          Comment
+        )
+      )
+  } else {
+    test_doc_function <- test_doc_function |>
+      mutate(Comment = if_else(code != "",
+                               Comment,
+                               "")) |>
+      mutate(Comment = if_else(grepl("#", code, fixed = TRUE),
+                               "",
+                               Comment)) |>
+      mutate(Comment = if_else(grepl("```", code, fixed = TRUE),
+                               "",
+                               Comment))
+  }
+
+
   if (level == "light") {
     test_doc_function <- test_doc_function |>
-      mutate(Comment = if_else(grepl("|>", code, fixed = TRUE),
+      mutate(Comment = if_else(str_detect(code, "(%>%)|(|>)"),
                                Comment,
                                ""))
   } else if (level == "heavy") {

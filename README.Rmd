@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of DrLlama is to provide documentation on undocumented R code, to improve the reading of code written by others (or by you a long time ago).
+The Documentation-To-R (DocToR) package uses Large Language Models to provide documentation on undocumented R code, improving the readability of code written by others (or by you a long time ago).
 
 ## Installation
 

@@ -61,7 +61,7 @@ doc_to_code <- function(file, level = "light") {
 
   if (level == "light") {
     test_doc_function <- test_doc_function |>
-      mutate(Comment = if_else(str_detect(code, "(%>%)|(|>)"),
+      mutate(Comment = if_else(grepl("|>", code, fixed = TRUE) | grepl("%>%", code, fixed = TRUE),
                                Comment,
                                ""))
   } else if (level == "heavy") {
@@ -70,7 +70,7 @@ doc_to_code <- function(file, level = "light") {
     print("Please define if light or heavy commentary.")
   }
 
-  filename <- paste0("with_code_", file)
+  filename <- paste0("with_doc_", file)
 
   write.table(test_doc_function, filename, sep = "", row.names = FALSE,
               col.names = FALSE, quote = FALSE)

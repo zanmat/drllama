@@ -44,7 +44,15 @@ doc_to_code <- function(file, level = "light") {
           "",
           Comment
         )
-      )
+      ) |>
+      mutate(
+        count = cumsum(grepl("```", code, fixed = TRUE)),                    # Count occurrences of "abc"
+        flag = (count %% 2 == 1 )) |>
+      mutate(Comment = if_else(flag == FALSE,
+                               "",
+                               Comment)) |>
+      select(-count, -flag)
+
   } else {
     test_doc_function <- test_doc_function |>
       mutate(Comment = if_else(code != "",

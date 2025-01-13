@@ -6,9 +6,10 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The Documentation-To-R (Doc-To-R) package uses Large Language Models to
-provide documentation on undocumented R code, improving the readability
-of code written by others (or by you a long time ago).
+The Documentation-To-R (Doc-To-R) package uses locally run Large
+Language Models to provide documentation on undocumented R code,
+improving the readability of code written by others (or by you a long
+time ago).
 
 ## Installation
 
@@ -20,5 +21,5 @@ You can install the development version of DrLlama from
 pak::pak("zanmat/drllama")
 ```
 
-DrLlama requires having [Ollama](https://ollama.com/) installed and
+drllama requires having [Ollama](https://ollama.com/) installed and
 running.

@@ -2,7 +2,7 @@
 #' Write documentation for code
 #'
 #' @param file Path to the code file
-#' @param level Documentation level of detail. Defaults to light. Heavy: All lines are documented. Light: Only lines within pipes are documented.
+#' @param level Documentation level of detail. Defaults to light. Light: Provides a description of functions and pipes. Heavy: All lines are documented (not very useful).
 #'
 #' @return A new R file is created adding a documentation to the code
 #' @export

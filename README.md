@@ -13,7 +13,7 @@ time ago).
 
 ## Installation
 
-You can install the development version of DrLlama from
+You can install the development version of drllama from
 [GitHub](https://github.com/) with:
 
 ``` r

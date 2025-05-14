@@ -12,6 +12,7 @@ RoxygenNote: 7.3.2
 Depends:
     dplyr,
     tidyr,
+    stringr,
     mall
 Imports: 
 URL: https://github.com/zanmat/drllama

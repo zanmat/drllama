@@ -1,9 +1,9 @@
 
-#' Write documentation for code
+#' Create roxygen doc from function
 #'
 #' @param file Path to the code file with the function
 #'
-#' @return A new R file is created adding a 10 word documentation comment to the code
+#' @return A new file is created as a roxygen doc
 #' @export
 #'
 #' @examples droxygen("my_new_package_function.R")

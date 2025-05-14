@@ -2,7 +2,7 @@
 % Please edit documentation in R/droxygen.R
 \name{droxygen}
 \alias{droxygen}
-\title{Write documentation for code}
+\title{Create roxygen doc from function}
 \usage{
 droxygen(file)
 }
@@ -10,10 +10,10 @@ droxygen(file)
 \item{file}{Path to the code file with the function}
 }
 \value{
-A new R file is created adding a 10 word documentation comment to the code
+A new file is created as a roxygen doc
 }
 \description{
-Write documentation for code
+Create roxygen doc from function
 }
 \examples{
 droxygen("my_new_package_function.R")

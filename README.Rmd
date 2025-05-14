@@ -36,5 +36,5 @@ You can install the development version of drllama from [GitHub](https://github.
 pak::pak("zanmat/drllama")
 ```
 
-drllama requires having [Ollama](https://ollama.com/) installed and running.
+drllama requires having [Ollama](https://ollama.com/) installed and running. DocToRing times will vary depending on script and model size and computing resources.
 

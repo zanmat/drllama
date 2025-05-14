@@ -2,7 +2,7 @@ pandoc: '3.4'
 pkgdown: 2.1.2
 pkgdown_sha: ~
 articles: {}
-last_built: 2025-05-14T15:37Z
+last_built: 2025-05-14T20:33Z
 urls:
   reference: https://zanmat.github.io/drllama/reference
   article: https://zanmat.github.io/drllama/articles

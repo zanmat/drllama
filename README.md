@@ -33,4 +33,5 @@ pak::pak("zanmat/drllama")
 ```
 
 drllama requires having [Ollama](https://ollama.com/) installed and
-running.
+running. DocToRing times will vary depending on script and model size
+and computing resources.

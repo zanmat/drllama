@@ -1,5 +1,5 @@
 
-#' Write documentation for code
+#' Documents R Code
 #'
 #' @param file Path to the code file
 #' @param level Documentation level of detail. Defaults to light. Light: Provides a description of functions and pipes. Heavy: All lines are documented (not very useful).
@@ -10,7 +10,7 @@
 #' @examples code_to_doc("my_code.R", "light")
 #' @examples code_to_doc("my_code.R", "heavy")
 
-doc_to_code <- function(file, level = "light") {
+doctor <- function(file, level = "light") {
 
 #  llm_use("ollama", "llama3.2:3b", seed = 100, temperature = 0)
 
@@ -362,7 +362,7 @@ if (sum(nchar(doc_test$code)) < 5000) {
   rm(doc_test_sum)
   rm(doc_final)
 
-  filename <- paste0("with_doc_", file)
+  filename <- paste0("doctord_", file)
 
   write.table(final_doc, filename, sep = "", row.names = FALSE,
               col.names = FALSE, quote = FALSE)

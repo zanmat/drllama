@@ -9,10 +9,10 @@ doc_to_code(file, level = "light")
 \arguments{
 \item{file}{Path to the code file}
 
-\item{level}{Documentation level of detail. Defaults to light. Heavy: All lines are documented. Light: Only lines within pipes are documented.}
+\item{level}{Documentation level of detail. Defaults to light. Light: Provides a description of functions and pipes. Heavy: All lines are documented (not very useful).}
 }
 \value{
-A new R file is created adding a 10 word documentation comment to the code
+A new R file is created adding a documentation to the code
 }
 \description{
 Write documentation for code

@@ -6,8 +6,7 @@
 #' @return A new R file is created adding a 10 word documentation comment to the code
 #' @export
 #'
-#' @examples
-#' @examples
+#' @examples droxygen("my_new_package_function.R")
 
 droxygen <- function(file) {
 

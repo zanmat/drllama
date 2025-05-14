@@ -1,0 +1,7 @@
+template:
+  bootstrap: 5
+  bslib:
+    bg: "#a6b8c7"
+    fg: "#1a1a1a"
+    primary: "#003b6f"
+url: https://zanmat.github.io/drllama/

@@ -1,11 +1,11 @@
 Package: drllama
-Title:  R Code Documentation via local LLM
+Title: R Code Documentation via local LLM
 Version: 0.1.0
 Authors@R: 
     person("Mattia", "Zanazzi", , "mattiazanazzi@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description:  The Documentation-To-R (Doc-To-R) package uses locally run Large Language Models to provide documentation on undocumented R code, improving the readability of code written by others (or by you a long time ago).
-License: `use_mit_license()`.
+Description: The Documentation-To-R (Doc-To-R) package uses locally run Large Language Models to provide documentation on undocumented R code, improving the readability of code written by others (or by you a long time ago).
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2

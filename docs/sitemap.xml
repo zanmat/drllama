@@ -1,8 +1,11 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
-<url><loc>/404.html</loc></url>
-<url><loc>/authors.html</loc></url>
-<url><loc>/index.html</loc></url>
-<url><loc>/reference/doc_to_code.html</loc></url>
-<url><loc>/reference/index.html</loc></url>
+<url><loc>https://zanmat.github.io/drllama/404.html</loc></url>
+<url><loc>https://zanmat.github.io/drllama/authors.html</loc></url>
+<url><loc>https://zanmat.github.io/drllama/index.html</loc></url>
+<url><loc>https://zanmat.github.io/drllama/LICENSE-text.html</loc></url>
+<url><loc>https://zanmat.github.io/drllama/LICENSE.html</loc></url>
+<url><loc>https://zanmat.github.io/drllama/reference/doc_to_code.html</loc></url>
+<url><loc>https://zanmat.github.io/drllama/reference/droxygen.html</loc></url>
+<url><loc>https://zanmat.github.io/drllama/reference/index.html</loc></url>
 </urlset>
 

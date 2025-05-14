@@ -7,14 +7,11 @@
 droxygen(file)
 }
 \arguments{
-\item{file}{Path to the code file with the function}
+\item{file}{Path to the input code file with the function}
 }
 \value{
-A new file is created as a roxygen doc
+A new file is created as a roxygen doc.  The file ends with "_droxygend" and is saved in the same directory as the input file.
 }
 \description{
 Create roxygen doc from function
-}
-\examples{
-droxygen("my_new_package_function.R")
 }

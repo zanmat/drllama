@@ -1,14 +1,12 @@
 
 #' Documents R Code
 #'
-#' @param file Path to the code file
+#' @param file Path to the input code file
 #' @param level Documentation level of detail. Defaults to light. Light: Provides a description of functions and pipes. Heavy: All lines are documented (not very useful).
 #'
-#' @return A new R file is created adding a documentation to the code
+#' @return A new R file is created adding a documentation to the code. The file ends with "_doctord" and is saved in the same directory as the input file.
 #' @export
 #'
-#' @examples code_to_doc("my_code.R", "light")
-#' @examples code_to_doc("my_code.R", "heavy")
 
 doctor <- function(file, level = "light") {
 
@@ -362,7 +360,7 @@ if (sum(nchar(doc_test$code)) < 5000) {
   rm(doc_test_sum)
   rm(doc_final)
 
-  filename <- paste0("doctord_", file)
+  filename <- paste0(str_sub(file, 1, -3), "_doctord.R")
 
   write.table(final_doc, filename, sep = "", row.names = FALSE,
               col.names = FALSE, quote = FALSE)

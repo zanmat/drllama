@@ -1,12 +1,11 @@
 
 #' Create roxygen doc from function
 #'
-#' @param file Path to the code file with the function
+#' @param file Path to the input code file with the function
 #'
-#' @return A new file is created as a roxygen doc
+#' @return A new file is created as a roxygen doc.  The file ends with "_droxygend" and is saved in the same directory as the input file.
 #' @export
 #'
-#' @examples droxygen("my_new_package_function.R")
 
 droxygen <- function(file) {
 
@@ -142,7 +141,7 @@ rm(doc_test_sum)
 rm(params)
 rm(doc_test_return)
 
-filename <- paste0("droxygend_", file)
+filename <- paste0(str_sub(file, 1, -3), "_droxygend.R")
 
 write.table(droxygend, filename, sep = "", row.names = FALSE,
             col.names = FALSE, quote = FALSE)

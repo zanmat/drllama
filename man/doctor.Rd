@@ -7,17 +7,13 @@
 doctor(file, level = "light")
 }
 \arguments{
-\item{file}{Path to the code file}
+\item{file}{Path to the input code file}
 
 \item{level}{Documentation level of detail. Defaults to light. Light: Provides a description of functions and pipes. Heavy: All lines are documented (not very useful).}
 }
 \value{
-A new R file is created adding a documentation to the code
+A new R file is created adding a documentation to the code. The file ends with "_doctord" and is saved in the same directory as the input file.
 }
 \description{
 Documents R Code
-}
-\examples{
-code_to_doc("my_code.R", "light")
-code_to_doc("my_code.R", "heavy")
 }

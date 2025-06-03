@@ -19,9 +19,9 @@ doctor <- function(file, level = "light") {
 
   if (tot_char > 5000) {
     response <- readline(prompt = paste0(
-      "This code includes ", tot_char,
+      "This script includes ", tot_char,
       " characters over ", tot_row,
-      " lines. It might take a few minutes to process it,
+      " lines of code. It might take a few minutes to process it,
       depending on the model chosen. Do you want to proceed? (yes/no): "))
     if (tolower(response) != "yes") {
       message("Operation cancelled.")

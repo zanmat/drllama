@@ -14,20 +14,35 @@ doctor <- function(file, level = "light") {
 
   doc_test <- data.frame(code = readLines(file, warn = FALSE))
 
+  tot_char <- sum(nchar(doc_test$code))
+  tot_row <- sum(nrow(doc_test))
+
+  if (tot_char > 5000) {
+    response <- readline(prompt = paste0(
+      "This code includes ", tot_char,
+      " characters over ", tot_row,
+      " lines. It might take a few minutes to process it,
+      depending on the model chosen. Do you want to proceed? (yes/no): "))
+    if (tolower(response) != "yes") {
+      message("Operation cancelled.")
+      return(NULL)
+    }
+  }
+
 # SUMMARY function at the top of the doc
 # OUTPUT: doc_test_sum
 
-if (sum(nchar(doc_test$code)) < 5000) {
+if (tot_char < 5000) {
 
+  # < 5,000 characters of script is small enough to be read by the model entirely
     doc_test_sum <- doc_test |>
       summarise(code = paste(code, collapse = " \n "))
 
-    prompt <- paste(
-      "What does this R code do? Please answer in 50 words."
+    prompt50 <- paste(
+      "This text contains R code. Describe to a technical audience what the code does in 50 words."
     )
 
-
-   doc_test_sum <- llm_custom(doc_test_sum, code, prompt, pred_name = "Comment") |>
+   doc_test_sum <- llm_custom(doc_test_sum, code, prompt50, pred_name = "Comment") |>
       mutate(code = "") |>
       mutate(Comment = paste0("# ", Comment)) |>
       #  add_row(code = "", Comment = "") |>
@@ -49,61 +64,56 @@ if (sum(nchar(doc_test$code)) < 5000) {
       add_row(code = "", Comment = "")
 
   } else {
-    prompt <- paste(
-      "Provide a 7 word comment explaining what this R code does.",
-      "Return only the answer.",
-      "Answer this in a simple way for someone at an intermediate level of R."
-    )
 
-    doc_test_sum <- llm_custom(doc_test, code, prompt, pred_name = "Comment") |>
-      mutate(Comment = if_else(code != "",
-                               paste0("", Comment),
-                               "")) |>
-      mutate(Comment = if_else(grepl("#", code, fixed = TRUE),
-                               "",
-                               Comment)) |>
-      mutate(Comment = if_else(grepl("```", code, fixed = TRUE),
-                               "",
-                               Comment))
+      # For bigger scripts
+    # We want to create groupings of code for the LLM to review and comment
 
-    doc_test_sum <- doc_test_sum |>
+    doc_test_sum <- doc_test |>
       mutate(len = str_length(code)) |>
       mutate(cnt = cumsum(len)) |>
       mutate(brk = trunc(cnt / 4000))
 
-    for (i in 1:30) {
+    for (i in 1:30) { # This adjusts the breaks among groups in a more logical way
       doc_test_sum <- doc_test_sum  |>
         mutate(brk = if_else(lag(brk) != brk & len != 0, lag(brk), brk))
     }
 
-    doc_test_sum <- doc_test_sum  |>
+    doc_test_sum <- doc_test_sum  |> # Creates the groups
       mutate(brk = replace_na(brk, 0)) |>
-      select(Comment, brk) |>
+      select(code, brk) |>
       group_by(brk) |>
+      summarise(code = paste(code, collapse = " \n ")) |>
+      ungroup() |>
+      select(code)
+
+    prompt50 <- paste(
+      "This text contains R code. Describe to a technical audience what the code does in 50 words."
+    )
+
+    # Here we feed the groups of code to the LLM to review
+    doc_test_sum <- llm_custom(doc_test_sum, code, prompt50, pred_name = "Comment") |>
+      mutate(group = "group")
+
+    doc_test_sum <- doc_test_sum  |> # We collapse again the groups into a single blob of text
+      select(Comment, group) |>
+      group_by(group) |>
       summarise(Comment = paste(Comment, collapse = " \n ")) |>
       ungroup() |>
       select(Comment)
 
-
-    prompt2 <- paste(
-      "Summarise what these comments on R code mention, preserving key points. Keep your anwwer to 20 words or less."
+    prompt40 <- paste(
+      "This text represents summaries of comments on a single R script.",
+      "Based on this text, provide a summary in 40 words or less of what the original code does.",
+      "The summary is for an external audience who is not familiar with the code but will have
+  at least an intermediate level of R. Use key words, packages and other elements in this context.",
+      "Only write the summary, no introductions to it. Be efficient in the use of text."
     )
 
-    doc_test_sum <- llm_custom(doc_test_sum, Comment, prompt2, pred_name = "Comment_2")
-
-    doc_test_sum <- doc_test_sum  |>
-      summarise(Comment_2 = paste(Comment_2, collapse = " \n "))
-
-
-    prompt3 <- paste(
-      "This text represents summaries of comments on R code. Try to provide a summary in 40 words of what this code does keeping key words.",
-      "Return only the answer.",
-      "Answer this in a simple way for someone at an intermediate level of R."
-    )
-
-
-    doc_test_sum <- llm_custom(doc_test_sum, Comment_2, prompt3, pred_name = "Comment") |>
+    # Aaand we now ask the LLM to guess what the script did based on the descriptions
+    doc_test_sum <- llm_custom(doc_test_sum, Comment, prompt40, pred_name = "Comment_2")|>
       mutate(code = "") |>
+      select(code, Comment_2) |>
+      rename(Comment = Comment_2) |>
       mutate(Comment = paste0("# ", Comment)) |>
       #  add_row(code = "", Comment = "") |>
       mutate(Comment1 = word(Comment, 1, 10)) |>
@@ -124,32 +134,20 @@ if (sum(nchar(doc_test$code)) < 5000) {
       select(code, value) |>
       rename(Comment = value)
 
+
   }
 
 # CODE DOC within the document
 # OUTPUT: test_doc_function
 
-  prompt <- paste(
-    "Provide a 10 word comment explaining what this R code does.",
+  prompt10 <- paste(
+    "This text contains R code. Describe to a technical audience what the code does in 10 words.",
     "Return only the answer.",
-    "If the content is empty, provide no answer.",
-    "Answer this in a simple way for someone at beginner to intermediate level of R."
+    "If the content is empty, provide no answer."
   )
 
-
-  # test_doc_function <- llm_custom(doc_test, code, prompt, pred_name = "Comment") |>
-  #   mutate(Comment = if_else(code != "",
-  #                            paste0("  # ", Comment),
-  #                            "")) |>
-  #   mutate(Comment = if_else(grepl("#", code, fixed = TRUE),
-  #                            "",
-  #                            Comment)) |>
-  #   mutate(Comment = if_else(grepl("```", code, fixed = TRUE),
-  #                            "",
-  #                            Comment))
-
   prompt20 <- paste(
-    "What does this R code do? Please answer in 20 words."
+    "This text contains R code. Describe to a technical audience what the code does in 20 words."
   )
 
   empty <- data.frame(code = "")
@@ -220,7 +218,7 @@ if (sum(nchar(doc_test$code)) < 5000) {
   # Documentation for pipes
   doc_pipe <- bind_rows(empty, doc_test) |>
     mutate(char = nchar(code)) |>
-    mutate(pipes_cont = if_else(str_ends(code, "\\|>"),
+    mutate(pipes_cont = if_else(str_ends(code, "\\|>") | str_ends(code, "%>%"),
                                 "continues", "")) |>
     mutate(comma_cont = if_else(str_ends(code, "\\,") | str_ends(code, "\\=") |
                                   str_ends(code, "\\&") | str_ends(code, "\\|") |
@@ -337,7 +335,7 @@ if (sum(nchar(doc_test$code)) < 5000) {
   if (level == "light") {
     doc_final
   } else if (level == "heavy") {
-    doc_test_sum <- llm_custom(doc_test, code, prompt, pred_name = "Comment") |>
+    doc_test_sum <- llm_custom(doc_test, code, prompt10, pred_name = "Comment") |>
       mutate(Comment = if_else(code != "",
                                paste0("  # DL: ", Comment),
                                "")) |>

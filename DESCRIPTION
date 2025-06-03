@@ -1,6 +1,6 @@
 Package: drllama
 Title: R Code Documentation via local LLM
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: 
     person("Mattia", "Zanazzi", , "mattiazanazzi@gmail.com", role = c("aut", "cre"))
 Description: The Documentation-To-R (Doc-To-R) package uses locally run Large Language Models to provide documentation on undocumented R code, improving the readability of code written by others (or by you a long time ago).
